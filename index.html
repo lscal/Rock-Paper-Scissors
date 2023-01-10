@@ -4,10 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Rock, paper, scissors!</title>
 </head>
 <body>
     <script>
+        //Declaring some variables for messeges based on who wins the match
+        let pw = 'Player wins!'
+        let cw = 'Computer wins!'
+        let tie = "It's a tie!"
+        //Player and computer points start at 0
+        let playerPoint = 0
+        let computerPoint = 0
         //Function for creating the computers choice
         getComputerChoice = function() {
             //Empty string to be filled in with computers choice
@@ -33,31 +40,67 @@
             let res = ''
             //Check the players choice against the computers choice
             if (playerChoice === 'rock' && compChoice === 'scissors') {
-                res = 'Player wins!'
+                res = pw
             } else if (playerChoice === 'paper' && compChoice === 'rock') {
-                res = 'Player wins!'
-            } else if (playerChoice === ' scissors' && compChoice === 'paper') {
-                res = 'Player wins!'
+                res = pw
+            } else if (playerChoice === 'scissors' && compChoice === 'paper') {
+                res = pw
+            } else if (playerChoice === compChoice) {
+                res = tie
             } else {
-                res = 'Computer wins!'
+                res = cw
             }
-            //Display messege to user that tells the result of the match, as well as the computers choice
-            let resMessege = `Computer chooses ${compChoice}! ${res}.`
-            return resMessege 
+            //Return result of match
+            return res
         }
-        //compChoice is filled in after running the getComputerChoice function
-        let compChoice = getComputerChoice()
-        //Ask user to choose rock paper or scissors
-        //and keep prompt up until user gives correct input
-        let playerChoice = prompt('Rock, paper, scissors!')
-        while(true){
-            playerChoice = playerChoice.toLowerCase()
-            if (playerChoice === 'rock' || playerChoice === 'paper' || playerChoice === 'scissors') {
-                break
-            } else {
-                alert('Please type in rock, paper, or scissors.')
+
+        game = function(){
+            //A bout of 5 rounds begins
+            for (let i = 0; i < 5; i++) {
+            //Players submit their choices
+            //compChoice is filled in after running the getComputerChoice function
+            let compChoice = getComputerChoice()
+            //Ask user to choose rock paper or scissors
+            //and keep prompt up until user gives correct input
+            let playerChoice = prompt('Rock, paper, scissors!')
+            while(true){
+                playerChoice = playerChoice.toLowerCase()
+                    if (playerChoice === 'rock' || playerChoice === 'paper' || playerChoice === 'scissors') {
+                    break
+                    } else {
+                    alert('Please type in rock, paper, or scissors.')
+                    playerChoice = prompt('Rock, paper, scissors!')
             }
-        }     
+        }
+            //A round is played
+            let res = playRound(compChoice, playerChoice)
+            //Messege after each round
+            let roundMessege = `Computer chooses ${compChoice}! ${res}`
+            //Who won? Give em a point!
+            if (res === pw) {
+                playerPoint += 1
+                alert(roundMessege)
+            } else if (res === cw) {
+                computerPoint += 1
+                alert(roundMessege)
+            } else if (res === tie) {
+                alert(roundMessege)
+            }
+            }
+            //Messege after game
+            let gameMessege = `Player: ${playerPoint}. Computer: ${computerPoint}.`
+            //Who has the most points? They are winner!
+            if (playerPoint > computerPoint) {
+                gameMessege = gameMessege +' '+pw
+            } else if (computerPoint > playerPoint) {
+                gameMessege = gameMessege +' '+cw
+            } else if (playerPoint === computerPoint) {
+                gameMessege = gameMessege +' '+tie
+            }
+            //Return a messege that includes points, and the winner of the match
+            return alert(gameMessege)
+        }
+        game()
     </script>
 </body>
 </html>
