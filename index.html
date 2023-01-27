@@ -13,7 +13,11 @@
         <button class = 'scissors'>Scissors</button>
     </div>
     <div id = "roundMessege"></div>
+    <div id = "score">Player: 0 Computer: 0</div>
     <script>
+        //Int. scores
+        let computerScore = 0
+        let playerScore = 0
         //Declaring some variables for messeges based on who wins the match
         let playerW = 'Player wins!'
         let computerW = 'Computer wins!'
@@ -112,17 +116,28 @@
         }*/
         const buttons = document.querySelectorAll('button')
         const roundMessegeDiv = document.getElementById('roundMessege')
-        const para = document.createElement('p')
+        const paraRoundMessege = document.createElement('p')
+        const scoreDiv = document.getElementById('score')
         buttons.forEach((button) => button.addEventListener('click', () => {
             compChoice = getComputerChoice()
             playerChoice = button.classList.value
             let round = playRound(compChoice, playerChoice)
             let roundMessege = document.createTextNode(`Computer chooses ${compChoice}! ${round}`)
-            if (para.textContent !== '') {
-                para.textContent = ''
+            if (paraRoundMessege.textContent !== '') {
+                paraRoundMessege.textContent = ''
             }
-            para.appendChild(roundMessege)
-            roundMessegeDiv.appendChild(para)
+            paraRoundMessege.appendChild(roundMessege)
+            roundMessegeDiv.appendChild(paraRoundMessege)
+            if (round === playerW) {
+                playerScore += 1
+                scoreDiv.textContent = `Player: ${playerScore} Computer: ${computerScore}`
+            } else if (round === computerW) {
+                computerScore += 1
+                scoreDiv.textContent = `Player: ${playerScore} Computer: ${computerScore}`
+            } else if (score === gameTie) {
+                scoreDiv.textContent = `Player: ${playerScore} Computer: ${computerScore}`
+            }
+            console.log(playerScore)
         }))
     </script>
 </body>
