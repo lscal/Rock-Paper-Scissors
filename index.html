@@ -12,6 +12,7 @@
         <button class = 'paper'>Paper</button>
         <button class = 'scissors'>Scissors</button>
     </div>
+    <div id = "roundMessege"></div>
     <script>
         //Declaring some variables for messeges based on who wins the match
         let playerW = 'Player wins!'
@@ -110,11 +111,18 @@
             }
         }*/
         const buttons = document.querySelectorAll('button')
+        const roundMessegeDiv = document.getElementById('roundMessege')
+        const para = document.createElement('p')
         buttons.forEach((button) => button.addEventListener('click', () => {
             compChoice = getComputerChoice()
             playerChoice = button.classList.value
-            console.log(compChoice)
-            console.log(playerChoice)
+            let round = playRound(compChoice, playerChoice)
+            let roundMessege = document.createTextNode(`Computer chooses ${compChoice}! ${round}`)
+            if (para.textContent !== '') {
+                para.textContent = ''
+            }
+            para.appendChild(roundMessege)
+            roundMessegeDiv.appendChild(para)
         }))
     </script>
 </body>
