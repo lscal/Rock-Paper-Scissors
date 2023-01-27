@@ -52,9 +52,8 @@
             //Return result of match
             return roundResult
         }
-
         //Function that plays a 5 round game
-        game = function(){
+        /*game = function(){
             //Points start at 0
             let playerPoint = 0
             let computerPoint = 0
@@ -109,7 +108,14 @@
             } else {
                 break
             }
-        }
+        }*/
+        const buttons = document.querySelectorAll('button')
+        buttons.forEach((button) => button.addEventListener('click', () => {
+            compChoice = getComputerChoice()
+            playerChoice = button.classList.value
+            console.log(compChoice)
+            console.log(playerChoice)
+        }))
     </script>
 </body>
 </html>
