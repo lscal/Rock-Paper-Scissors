@@ -5,16 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock, paper, scissors!</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+       <div id = "roundMessege"></div>
     <div>
-        <button class = 'rock'>Rock</button>
-        <button class = 'paper'>Paper</button>
-        <button class = 'scissors'>Scissors</button>
+        <button class = 'rock'>rock</button>
+        <button class = 'paper'>paper</button>
+        <button class = 'scissors'>scissors</button>
     </div>
-    <div id = "roundMessege"></div>
     <div id = "score">Player: 0 Computer: 0</div>
     <script>
+        //Getting elements from DOM
+        const buttons = document.querySelectorAll('button')
+        const roundMessegeDiv = document.getElementById('roundMessege')
+        const paraRoundMessege = document.createElement('p')
+        const scoreDiv = document.getElementById('score')        
         //Int. scores
         let computerScore = 0
         let playerScore = 0
@@ -39,9 +45,12 @@
             return compChoice
         }
         //Function that evaluates the players choice against the computers choice
-        playRound = function(compChoice, playerChoice) {
+        function playRound(compChoice, e) {
             //Result is filled in after choices are evaluated
             let roundResult = ''
+            //Get choices from player and computer
+            playerChoice = this.classList.value
+            compChoice = getComputerChoice()
             //Check the players choice against the computers choice
             if (playerChoice === 'rock' && compChoice === 'scissors') {
                 roundResult = playerW
@@ -54,80 +63,15 @@
             } else {
                 roundResult = computerW
             }
-            //Return result of match
-            return roundResult
-        }
-        //Function that plays a 5 round game
-        /*game = function(){
-            //Points start at 0
-            let playerPoint = 0
-            let computerPoint = 0
-            //A bout of 5 rounds begins
-            for (let i = 0; i < 5; i++) {
-            //Players submit their choices
-            let compChoice = getComputerChoice()
-            let playerChoice = prompt('Rock, paper, scissors!')
-            //Make sure player types in the appropriate words 
-            while(true){
-                playerChoice = playerChoice.toLowerCase()
-                    if (playerChoice === 'rock' || playerChoice === 'paper' || playerChoice === 'scissors') {
-                    break
-                    } else {
-                    alert('Please type in rock, paper, or scissors.')
-                    playerChoice = prompt('Rock, paper, scissors!')
-            }
-        }
-            //A round is played
-            let round = playRound(compChoice, playerChoice)
-            //Messege after each round
-            let roundMessege = `Computer chooses ${compChoice}! ${round}`
-            //Who won? Give em a point!
-            if (round === playerW) {
-                playerPoint += 1
-                alert(roundMessege)
-            } else if (round === computerW) {
-                computerPoint += 1
-                alert(roundMessege)
-            } else if (round === gameTie) {
-                alert(roundMessege)
-            }
-            }
-            //Messege after game
-            let gameMessege = `Player: ${playerPoint}. Computer: ${computerPoint}.`
-            //Who has the most points? They are winner!
-            if (playerPoint > computerPoint) {
-                gameMessege = gameMessege +' '+playerW
-            } else if (computerPoint > playerPoint) {
-                gameMessege = gameMessege +' '+computerW
-            } else if (playerPoint === computerPoint) {
-                gameMessege = gameMessege +' '+gameTie
-            }
-            //Return a messege that includes points, and the winner of the match
-            return alert(gameMessege)
-        } 
-        game()
-        while (true) {
-            let playAgain = confirm('Would you like to play again?')
-            if (playAgain) {
-                game()
-            } else {
-                break
-            }
-        }*/
-        const buttons = document.querySelectorAll('button')
-        const roundMessegeDiv = document.getElementById('roundMessege')
-        const paraRoundMessege = document.createElement('p')
-        const scoreDiv = document.getElementById('score')
-        buttons.forEach((button) => button.addEventListener('click', function listen() {
-            compChoice = getComputerChoice()
-            playerChoice = button.classList.value
-            let round = playRound(compChoice, playerChoice)
+            //Creates messege for round
+            let round = roundResult
             let roundMessege = document.createTextNode(`Computer chooses ${compChoice}! ${round}`)
-            if (paraRoundMessege.textContent !== '') {
+            if (paraRoundMessege !== ''){
                 paraRoundMessege.textContent = ''
             }
             paraRoundMessege.appendChild(roundMessege)
             roundMessegeDiv.appendChild(paraRoundMessege)
+            //Give points to winner of a round
             if (round === playerW) {
                 playerScore += 1
                 scoreDiv.textContent = `Player: ${playerScore} Computer: ${computerScore}`
@@ -137,16 +81,18 @@
             } else if (score === gameTie) {
                 scoreDiv.textContent = `Player: ${playerScore} Computer: ${computerScore}`
             }
+            //End game after 5 points are gained
             if (playerScore === 5){
                 paraRoundMessege.textContent = 'Player wins!'
-                scoreDiv.textContent = ''
-                button.removeEventListener('click', listen)
-            } else if (computerScore === 5) {
+                buttons.forEach((button) => button.removeEventListener('click', playRound))
+            } else if (computerScore === 5){
                 paraRoundMessege.textContent = 'Computer wins!'
-                scoreDiv.textContent = ''
-                button.removeEventListener('click', listen)
+                buttons.forEach((button) => button.removeEventListener('click', playRound))
             }
-        }))
+            return 
+        }
+        //Make buttons clickable, executing the function which the game is played in
+        buttons.forEach((button) => button.addEventListener('click', playRound))
     </script>
 </body>
 </html>
