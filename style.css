@@ -1,18 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Playfair+Display&display=swap');
 body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    margin: 0px;
+    background-image: linear-gradient(rgb(0, 140, 255),rgb(255, 255, 255));
     height: 100vh;
+    font-family: 'Comic Neue';
+}
+p {
     margin: 0px;
 }
-img {
-    height: 100px;
-    width: 100px;
+#buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40%;
+    gap: 5px;
 }
-/*button {
+#icons {
+    display: flex;
+    justify-content: space-between;
+}
+#icons img {
+    width: 300px;
+    height: 300px;
+}
+#score {
+    display: flex;
+    justify-content: space-between;
+    font-size: 100px;
+    padding: 0px 95px;
+}
+#score p {
+    border: black double 5px;
+    padding: 0px 10px;
     color: white;
-    border-style: none;
-    padding: 0px;
-    background-color: white;
+    background-color: rgb(0, 119, 255);
+    min-width: 56px;
+    max-width: 56px;
+    display: flex;
+    justify-content: center;
+}
+#roundMessege {
+    display: flex;
+    justify-content: center;
+    max-height: 0px;
+    font-size: 50px;
+}
+button {
+    cursor: pointer;
+    font-family: 'Comic Neue';
+    height: 100px;
+    width: 150px;
+    font-size: 30px;
 }
