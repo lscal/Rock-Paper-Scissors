@@ -9,10 +9,16 @@
 </head>
 <body>
     <div id = "icons">
-        <img src="img/player.png" alt="player">
-        <img src="img/computer.png" alt="computer">
+        <div class="playerChoice">
+            <img src="img/player.png" alt="player">
+            <img class="playerChoiceImg" src="./img/clear.png" alt="player selection">
+        </div>
+        <div class="computerChoice">    
+            <img src="img/computer.png" alt="computer"> 
+            <img class="computerChoiceImg" src="./img/clear.png" alt="computer selection">
+        </div>
     </div>
-    <div id = "roundMessege"></div>
+    <div id = "roundMessege">Rock, paper, scissors!</div>
     <div id = "buttons">
         <button class = 'rock'>ROCK</button>
         <button class = 'paper'>PAPER</button>
@@ -25,11 +31,12 @@
     <script>
         //Getting elements from DOM
         const buttons = document.querySelectorAll('button')
-        const roundMessegeDiv = document.getElementById('roundMessege')
-        const paraRoundMessege = document.createElement('p')
+        const roundMessege = document.getElementById('roundMessege')
         const score = document.getElementById('score')
         const pScore = score.querySelector('.pScore')
-        const cScore = score.querySelector('.cScore')   
+        const cScore = score.querySelector('.cScore')
+        const playerChoiceImg = document.querySelector('.playerChoiceImg')
+        const computerChoiceImg = document.querySelector('.computerChoiceImg')
         //Int. scores
         let computerScore = 0
         let playerScore = 0
@@ -45,10 +52,13 @@
             let i = Math.floor(Math.random() * 10)
             if (i === 1 || i === 2 || i === 3) {
                 compChoice = 'rock'
+                computerChoiceImg.src = "./img/rock.png"
             } else if (i === 4 || i === 5 || i === 6) {
                 compChoice = 'paper'
+                computerChoiceImg.src = "./img/paper.png"
             } else {
                 compChoice = 'scissors'
+                computerChoiceImg.src = "./img/scissors.png"
             }
             //Return computers choice
             return compChoice
@@ -59,6 +69,7 @@
             let roundResult = ''
             //Get choices from player and computer
             playerChoice = this.classList.value
+            makePlayerIcon(playerChoice)
             compChoice = getComputerChoice()
             //Check the players choice against the computers choice
             if (playerChoice === 'rock' && compChoice === 'scissors') {
@@ -72,26 +83,27 @@
             } else {
                 roundResult = computerW
             }
-            makeMessege(compChoice, roundResult)
+            makeMessege(playerChoice, compChoice, roundResult)
             givePoints(roundResult)
             //End game after 5 points are gained
             if (playerScore === 5){
-                paraRoundMessege.textContent = 'Player wins!'
+                roundMessege.textContent = 'Player wins!'
                 buttons.forEach((button) => button.removeEventListener('click', playGame))
             } else if (computerScore === 5){
-                paraRoundMessege.textContent = 'Computer wins!'
+                roundMessege.textContent = 'Computer wins!'
                 buttons.forEach((button) => button.removeEventListener('click', playGame))
             }
             return 
         }
             //Creates messege for each round
-        function makeMessege(compChoice, roundResult) {
-            let roundMessege = document.createTextNode(`Computer chooses ${compChoice}! ${roundResult}`)
-            if (paraRoundMessege !== ''){
-                paraRoundMessege.textContent = ''
-            }
-            paraRoundMessege.appendChild(roundMessege)
-            roundMessegeDiv.appendChild(paraRoundMessege)
+        function makeMessege(playerChoice, compChoice, roundResult) {   
+            if (roundResult === playerW) {
+                roundMessege.textContent = `${playerChoice} beats ${compChoice}!`
+            } else if (roundResult === computerW) {
+                roundMessege.textContent = `${compChoice} beats ${playerChoice}!`
+                } else {
+                    roundMessege.textContent = `${roundResult}`
+                }
             return
         }
         //Give points to winner of round
@@ -106,6 +118,17 @@
                 pScore.textContent = `${playerScore}`
                 cScore.textContent = `${computerScore}`
             }           
+            return
+        }
+        //Displays image based on player choice
+        function makePlayerIcon(playerChoice) {
+            if (playerChoice === 'rock') {
+                playerChoiceImg.src = "./img/rock.png"
+            } else if (playerChoice === 'paper') {
+                playerChoiceImg.src = "./img/paper.png"
+            } else if (playerChoice === 'scissors') {
+                playerChoiceImg.src = "./img/scissors.png"
+            }
             return
         }
         //Make buttons clickable, executing the function which the game is played in
